@@ -182,13 +182,6 @@ of an expired or invalid TLS certificate.\
 Occurs if the given session id is not in the list of active sessions, meaning the session\n\
 either does not exist or that it's not active.\
 		";
-	//case kNoSuchCookie:
-	//	return "\
-//No cookie matching the given path name was found amongst the associated cookies of the\n\
-//current browsing context's active document.\
-//		";
-	//case kUnableToCaptureScreen:
-	//	return "A screen capture was made impossible.";
 	case kElementClickIntercepted:
 		return "\
 The Element Click command could not be completed because the element receiving the events\n\
@@ -196,10 +189,19 @@ is obscuring the element that was requested to be clicked.\
 		";
 		//case kUnknownMethod:
 		//	return "The requested command matched a known URL but did not match any methods for that URL.";
-	//case kMethodNotAllowed:
+	case kNoSuchCookie:
+	//	return "\
+//No cookie matching the given path name was found amongst the associated cookies of the\n\
+//current browsing context's active document.\
+//		";
+	case kUnableToCaptureScreen:
+	//	return "A screen capture was made impossible.";
+	case kMethodNotAllowed:
 	//	return "";
+	case kNoAlertOpenError:
+	default:
+		return "Unknown";
 	}
-	return "Unknown";
 }
 
 } // namespace response_status_code

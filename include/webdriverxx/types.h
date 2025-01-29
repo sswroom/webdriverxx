@@ -117,7 +117,7 @@ enum Button {
 std::vector<std::string> split(const std::string str, char delimiter = ' ') {
     std::vector<std::string> result;
     result.reserve(str.size());
-    int start = 0, end = 0;
+    size_t start = 0, end = 0;
     for (const auto& c: str) {
 	if (c != delimiter) {
 	    ++end;

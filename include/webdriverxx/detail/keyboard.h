@@ -8,6 +8,19 @@
 namespace webdriverxx {
 namespace detail {
 
+inline std::string StringJoin(std::vector<std::string> keys)
+{
+	std::string s = "";
+	size_t i = 0;
+	size_t j = keys.size();
+	while (i < j)
+	{
+		s += keys[i];
+		i++;
+	}
+	return s;
+}
+
 class Keyboard { // copyable
 public:
 	Keyboard(const Shared<Resource>& resource, const std::string& command)
@@ -24,7 +37,7 @@ public:
 	inline
 	const Keyboard& SendKeys(const Shortcut& shortcut) const {
 		resource_->Post(command_, JsonObject()
-			.Set("text", shortcut.keys_)
+			.Set("text", StringJoin(shortcut.keys_))
 			.Set("value", ToJson(shortcut.keys_)));
 		return *this;
 	}

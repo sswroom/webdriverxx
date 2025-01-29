@@ -111,6 +111,13 @@ namespace webdriverxx {
 	}
 
 	inline
+		Window Session::GetWindow() const {
+		WEBDRIVERXX_FUNCTION_CONTEXT_BEGIN()
+			return Window("window", detail::Shared<detail::Resource>(new detail::Resource(resource_, "window", detail::Resource::IsObserver)));
+		WEBDRIVERXX_FUNCTION_CONTEXT_END()
+	}
+
+	inline
 		const Session& Session::CloseCurrentWindow() const {
 		resource_->Delete("window");
 		return *this;
@@ -147,7 +154,7 @@ namespace webdriverxx {
 
 	inline
 		const Session& Session::Execute(const std::string& script, const JsArgs& args) const {
-		InternalEvalJsonValue("execute", script, args);
+		InternalEvalJsonValue("execute/sync", script, args);
 		return *this;
 	}
 
@@ -155,7 +162,7 @@ namespace webdriverxx {
 	T Session::Eval(const std::string& script, const JsArgs& args) const {
 		WEBDRIVERXX_FUNCTION_CONTEXT_BEGIN()
 			T result = T();
-		InternalEval("execute", script, args, result);
+		InternalEval("execute/sync", script, args, result);
 		return result;
 		WEBDRIVERXX_FUNCTION_CONTEXT_END_EX(detail::Fmt()
 			<< "script: " << script
@@ -164,7 +171,7 @@ namespace webdriverxx {
 
 	inline
 		const Session& Session::ExecuteAsync(const std::string& script, const JsArgs& args) const {
-		InternalEvalJsonValue("execute_async", script, args);
+		InternalEvalJsonValue("execute/async", script, args);
 		return *this;
 	}
 
@@ -172,7 +179,7 @@ namespace webdriverxx {
 	T Session::EvalAsync(const std::string& script, const JsArgs& args) const {
 		WEBDRIVERXX_FUNCTION_CONTEXT_BEGIN()
 			T result;
-		InternalEval("execute_async", script, args, result);
+		InternalEval("execute/async", script, args, result);
 		return result;
 		WEBDRIVERXX_FUNCTION_CONTEXT_END_EX(detail::Fmt()
 			<< "script: " << script
@@ -389,7 +396,7 @@ namespace webdriverxx {
 		switch (value) {
 		case 0:
 		case 1:
-			resource_->Post("orientation", "orientation", allowed[value]);
+			resource_->Post("orientation", "orientation", allowed[(size_t)value]);
 			break;
 		default:
 			throw WebDriverException("You can only set the orientation to 'LANDSCAPE' and 'PORTRAIT'");

@@ -52,7 +52,7 @@ void Resize(char* str, size_t curSize, size_t newSize){
 }
 #endif
 
-void EncodeChunk(const uint8_t *in, uint32_t inLen, char *out)
+void EncodeChunk(const uint8_t *in, size_t inLen, char *out)
 {
     /*
       translation table
@@ -65,8 +65,8 @@ void EncodeChunk(const uint8_t *in, uint32_t inLen, char *out)
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'};
 
     // process bulks
-    int inLongLen = (inLen - 2);
-    int i;
+    size_t inLongLen = (inLen - 2);
+    size_t i;
 
     // process blocks
     const uint8_t *it = in;
@@ -96,7 +96,7 @@ void EncodeChunk(const uint8_t *in, uint32_t inLen, char *out)
     }
 }
 
-uint32_t DecodeChunk(const char *in, uint32_t inLen,uint8_t *out)
+uint32_t DecodeChunk(const char *in, size_t inLen,uint8_t *out)
 {
     Constant ArrayChar(256) valTable = {
         /* ASCII table */
@@ -116,16 +116,16 @@ uint32_t DecodeChunk(const char *in, uint32_t inLen,uint8_t *out)
         64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
         64, 64, 64, 64};
 
-    int i;
+    size_t i;
 
   // disable code duplication
   #define __FBASE_INIT_DECODE_SEGMENT                                            \
     const uint8_t *it = reinterpret_cast<const uint8_t *>(&in[i]);               \
     uint8_t *ot = &out[oIndex];                                                  \
-    uint8_t v0 = valTable[it[0]];                                                \
-    uint8_t v1 = valTable[it[1]];                                                \
-    uint8_t v2 = valTable[it[2]];                                                \
-    uint8_t v3 = valTable[it[3]];
+    uint8_t v0 = (uint8_t)valTable[it[0]];                                                \
+    uint8_t v1 = (uint8_t)valTable[it[1]];                                                \
+    uint8_t v2 = (uint8_t)valTable[it[2]];                                                \
+    uint8_t v3 = (uint8_t)valTable[it[3]];
 
 
      // check size
@@ -134,7 +134,7 @@ uint32_t DecodeChunk(const char *in, uint32_t inLen,uint8_t *out)
     }
 
     // remove pads from bulk process
-    int inLongLen = (inLen - 4);
+    size_t inLongLen = (inLen - 4);
     uint32_t oIndex = 0;
     for (i = 0; i < inLongLen; i += 4, oIndex += 3) {
       __FBASE_INIT_DECODE_SEGMENT
@@ -166,12 +166,12 @@ uint32_t DecodeChunk(const char *in, uint32_t inLen,uint8_t *out)
     return oIndex;
 }
 
-uint32_t GetEncodeLen(uint32_t inLen)
+size_t GetEncodeLen(size_t inLen)
 {
     return ((inLen + 2) / 3) * 4;
 }
 
-uint32_t GetDecodeExpectedLen(uint32_t inLen)
+size_t GetDecodeExpectedLen(size_t inLen)
 {
     return ((inLen + 3) / 4) * 3;
 }
@@ -179,7 +179,7 @@ uint32_t GetDecodeExpectedLen(uint32_t inLen)
 std::vector<uint8_t> Decode(const picostr &in)
 {
     std::vector<uint8_t> out;
-    uint32_t len = GetDecodeExpectedLen(in.size());
+    size_t len = GetDecodeExpectedLen(in.size());
     out.resize(len);
     len = DecodeChunk(in.c_str(), in.length(), &out[0]);
     out.resize(len);
@@ -189,7 +189,7 @@ std::vector<uint8_t> Decode(const picostr &in)
 picostr Encode(const std::vector<uint8_t>& in)
 {
 	picostr out;
-    uint32_t eLen = GetEncodeLen(in.size());
+    size_t eLen = GetEncodeLen(in.size());
     out.resize(eLen);
     EncodeChunk(in.data(), in.size(), &out[0]);
     return out;
@@ -199,9 +199,9 @@ picostr b64encode(const picostr &bytes)
 {
 	picostr out;
 #ifdef __cplusplus
-    uint32_t eLen = GetEncodeLen(bytes.length());
+    size_t eLen = GetEncodeLen(bytes.length());
 #else
-    uint32_t eLen = GetEncodeLen(strlen(bytes));
+    size_t eLen = GetEncodeLen(strlen(bytes));
 #endif
     out.resize(eLen);
     EncodeChunk((unsigned char*)bytes.data(), bytes.length(), &out[0]);
@@ -213,10 +213,10 @@ picostr b64decode(const picostr &base64)
 	picostr out;
 
 #ifdef __cplusplus
-    uint32_t eLen = GetDecodeExpectedLen(base64.length());
+    size_t eLen = GetDecodeExpectedLen(base64.length());
     out.resize(eLen);
 #else
-    uint32_t eLen = GetDecodeExpectedLen(strlen(base64));
+    size_t eLen = GetDecodeExpectedLen(strlen(base64));
     Resize(out, strlen(out), eLen);
 #endif
     eLen = DecodeChunk(base64.c_str(), base64.length(), reinterpret_cast<uint8_t*>(&out[0]));

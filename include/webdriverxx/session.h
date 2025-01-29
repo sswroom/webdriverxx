@@ -57,6 +57,7 @@ namespace webdriverxx {
 
 		std::vector<Window> GetWindows() const;
 		Window GetCurrentWindow() const;
+		Window GetWindow() const;
 		const Session& CloseCurrentWindow() const;
 		const Session& SetFocusToWindow(const std::string& window_handle) const;
 		const Session& SetFocusToWindow(const Window& window) const;

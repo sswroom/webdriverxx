@@ -13,6 +13,9 @@ namespace webdriverxx {
 				"Galaxy Note 3",
 				"Galaxy Note II",
 				"Galaxy S III",
+				"Galaxy S8",
+				"Galaxy S9+",
+				"Galaxy Tab S4",
 				"Kindle Fire HDX",
 				"LG Optimus L70",
 				"Laptop with HiDPI screen",
@@ -20,6 +23,7 @@ namespace webdriverxx {
 				"Laptop with touch",
 				"Microsoft Lumia 550",
 				"Microsoft Lumia 950",
+				"Moto G Power",
 				"Moto G4",
 				"Nexus 10",
 				"Nexus 4",
@@ -30,20 +34,39 @@ namespace webdriverxx {
 				"Nexus 7",
 				"Nokia Lumia 520",
 				"Nokia N9",
-				"iPad Mini",
-				"iPhone 4",
+				"Pixel 3",
+				"Pixel 4",
 				"JioPhone 2",
+				"iPhone SE",
+				"iPhone XR",
+				"iPhone 12 Pro",
+				"iPhone 14 Pro Max",
+				"Pixel 3 XL",
+				"Pixel 7",
+				"Samsung Galaxy S8+",
+				"Samsung Galaxy S20 Ultra",
+				"iPad Mini",
+				"iPad Air",
+				"iPad Pro",
+				"Surface Pro 7",
+				"Surface Duo",
+				"Galaxy Z Fold 5",
+				"Asus Zenbook Fold",
+				"Samsung Galaxy A51/71",
+				"Nest Hub",
+				"Nest Hub Max",
 				"Galaxy S5",
 				"Pixel 2",
 				"Pixel 2 XL",
+				"iPhone 4",
 				"iPhone 5/SE",
 				"iPhone 6/7/8",
 				"iPhone 6/7/8 Plus",
 				"iPhone X",
 				"iPad",
 				"iPad Pro",
-				"Surface Duo",
-				"Galaxy Fold"
+				"Galaxy Fold",
+				"Facebook on Android"
 			};
 
 			std::string Get(const std::string& name) {
@@ -56,19 +79,19 @@ namespace webdriverxx {
 
 			struct deviceMetrics : JsonObject {
 				WEBDRIVERXX_PROPERTIES_BEGIN(deviceMetrics)
-					WEBDRIVERXX_PROPERTY(width, "width", int)
-					WEBDRIVERXX_PROPERTY(height, "height", int)
-					WEBDRIVERXX_PROPERTY(pixelRatio, "pixelRatio", float)
-					WEBDRIVERXX_PROPERTY(touch, "touch", bool)
+					WEBDRIVERXX_PROPERTY(Width, "width", int)
+					WEBDRIVERXX_PROPERTY(Height, "height", int)
+					WEBDRIVERXX_PROPERTY(PixelRatio, "pixelRatio", float)
+					WEBDRIVERXX_PROPERTY(Touch, "touch", bool)
 					WEBDRIVERXX_PROPERTIES_END()
 			};
 		}
 
 		struct MobileEmulation : JsonObject {
 			WEBDRIVERXX_PROPERTIES_BEGIN(MobileEmulation)
-				WEBDRIVERXX_PROPERTY(deviceName, "deviceName", std::string)
-				WEBDRIVERXX_PROPERTY(userAgent, "userAgent", std::string)
-				WEBDRIVERXX_PROPERTY(deviceMetrics, "deviceMetrics", device::deviceMetrics)
+				WEBDRIVERXX_PROPERTY(DeviceName, "deviceName", std::string)
+				WEBDRIVERXX_PROPERTY(UserAgent, "userAgent", std::string)
+				WEBDRIVERXX_PROPERTY(DeviceMetrics, "deviceMetrics", device::deviceMetrics)
 				WEBDRIVERXX_PROPERTIES_END()
 		};
 

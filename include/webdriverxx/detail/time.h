@@ -23,7 +23,7 @@ TimePoint Now() {
 #else
 		timeval time = {};
 		WEBDRIVERXX_CHECK(0 == gettimeofday(&time, nullptr), "gettimeofday failure");
-		return static_cast<TimePoint>(time.tv_sec)*1000 + time.tv_usec/1000;
+		return static_cast<TimePoint>(time.tv_sec)*1000 + (TimePoint)time.tv_usec/1000;
 #endif
 }
 

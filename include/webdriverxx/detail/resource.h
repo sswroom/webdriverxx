@@ -179,7 +179,7 @@ private:
 			);
 
 		WEBDRIVERXX_CHECK(response.is<picojson::object>(), "Server response is not an object");
-		response_status_code::Value status;
+		response_status_code::Value status = response_status_code::kSuccess;
 		if (response.contains("status")) {
 			if (response.get("status").is<double>()) {
 				status = static_cast<response_status_code::Value>(static_cast<int>(response.get("status").get<double>()));
